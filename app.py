@@ -10,13 +10,10 @@ app = Flask(__name__, static_url_path='', static_folder='media')
 ENTRIES_DIR = "_entries"
 ENTRY_PATH = "/entry/"
 
-
 def markdown(text):
     return markdown2.markdown(text)
 
 app.add_template_filter(markdown)
-
-
 
 def get_entries():
     entries = []
@@ -26,7 +23,6 @@ def get_entries():
         entry['url'] = ENTRY_PATH + Path(f).stem
         entries.append(entry)
     return entries
-    
 
 @app.route("/entry/<title>")
 def entry(title):
@@ -41,6 +37,7 @@ def home():
     entries = get_entries()
     return render_template("home.html", entries=entries)
 
-
 if __name__ == "__main__":
-    app.run() #, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    # Get the PORT environment variable, default to 8080 if not set
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
